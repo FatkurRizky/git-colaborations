@@ -1,12 +1,18 @@
 <?php
 
-use App\Http\Controllers\DailyReconController;
+use App\Http\Controllers\RekonKasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::redirect('/', '/login');
 
-Route::get('/rekon', [DailyReconController::class, 'index'])->name('rekon.index');
-Route::post('/rekon', [DailyReconController::class, 'store'])->name('rekon.store');
+Route::middleware(['auth'])->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::resource('rekon-kas', RekonKasController::class);
+});
+
+
+require __DIR__.'/auth.php';

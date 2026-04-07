@@ -10,10 +10,12 @@ class RekonKas extends Model
 {
     use HasFactory;
 
-    // Nama tabel jika tidak jamak (optional, tapi aman untuk pemula)
     protected $table = 'rekon_kas';
 
-    // Kolom yang boleh diisi (Mass Assignment)
+    public const STATUS_MATCH = 'sesuai';
+    public const STATUS_LEBIH = 'selisih lebih';
+    public const STATUS_KURANG = 'selisih kurang';
+
     protected $fillable = [
         'rekon_date',
         'opening_cash',
@@ -25,61 +27,55 @@ class RekonKas extends Model
         'difference',
         'status',
         'notes',
-        'created_by'
     ];
 
-    /**
-     * Boot function untuk menghitung otomatis sebelum data disimpan.
-     * Ini mencegah manipulasi angka selisih oleh user/karyawan.
-     */
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::creating(function ($rekon) {
+        static::creating(function (self $rekon) {
             $rekon->calculateTotals();
         });
 
-        static::updating(function ($rekon) {
+        static::updating(function (self $rekon) {
             $rekon->calculateTotals();
         });
     }
 
-    /**
-     * Logika Kalkulator Rekonsiliasi
-     */
-    public function calculateTotals()
+    public function calculateTotals(): void
     {
-        // 1. Hitung Saldo Seharusnya
-        $this->cash_expected = ($this->opening_cash + $this->cash_income) - $this->operational_cash;
+        $openingCash     = (int) ($this->opening_cash ?? 0);
+        $cashIncome      = (int) ($this->cash_income ?? 0);
+        $operationalCash = (int) ($this->operational_cash ?? 0);
+        $actualCash      = (int) ($this->actual_cash ?? 0);
 
-        // 2. Hitung Selisih
-        $this->difference = $this->actual_cash - $this->cash_expected;
+        // non_cash_income tidak dihitung ke kas fisik
+        $this->cash_expected = ($openingCash + $cashIncome) - $operationalCash;
+        $this->difference    = $actualCash - $this->cash_expected;
 
-        // 3. Tentukan Status
-        if ($this->difference == 0) {
-            $this->status = 'match';
+        if ($this->difference === 0) {
+            $this->status = self::STATUS_MATCH;
         } elseif ($this->difference < 0) {
-            $this->status = 'selisih kurang';
+            $this->status = self::STATUS_KURANG;
         } else {
-            $this->status = 'selisih lebih';
+            $this->status = self::STATUS_LEBIH;
         }
     }
 
-    /**
-     * Relasi ke User (Siapa yang membuat rekon ini)
-     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    protected $casts = [
-    'opening_cash' => 'float',
-    'cash_income' => 'float',
-    'non_cash_income' => 'float',
-    'operational_cash' => 'float',
-    'cash_expected' => 'float',
-    'actual_cash' => 'float',
-    'difference' => 'float',
-    'rekon_date' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'rekon_date'       => 'date',
+            'opening_cash'     => 'integer',
+            'cash_income'      => 'integer',
+            'non_cash_income'  => 'integer',
+            'operational_cash' => 'integer',
+            'cash_expected'    => 'integer',
+            'actual_cash'      => 'integer',
+            'difference'       => 'integer',
+        ];
+    }
 }

@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     public function rekonRecords(){
-        return $this->hasMany(RekonKas::class, 'crated_by');
+        return $this->hasMany(RekonKas::class, 'created_by');
     }
 
     /**
@@ -47,5 +47,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Cek apakah user admin
+     */
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Cek apakah user karyawan
+     */
+
+    public function isKaryawan(): bool
+    {
+        return $this->role === 'karyawan'; 
     }
 }
