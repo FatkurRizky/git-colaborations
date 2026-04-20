@@ -27,6 +27,7 @@ class RekonKas extends Model
         'difference',
         'status',
         'notes',
+        'created_by',
     ];
 
     protected static function booted(): void
