@@ -1,4 +1,33 @@
 <<<<<<< HEAD
+# Software Development Team Repository
+
+## Nama Kelompok
+
+**The Vein**
+
+---
+
+## Anggota Kelompok
+
+1. **Muhammad Fatkur Rizky** — 2313020113
+2. **Elfi Saniatus Safatur R.** — 2313020109
+3. **Dista Fatmawati** — 2313020138
+
+---
+
+## Mata Kuliah
+
+**Software Development**
+
+---
+
+## Deskripsi Repository
+
+Repository ini dibuat sebagai bagian dari tugas mata kuliah **Software Development** untuk mempraktikkan penggunaan **Git dan GitHub dalam kolaborasi tim**.
+
+Di dalam repository ini setiap anggota tim berkontribusi dengan membuat dokumentasi sesuai perannya masing-masing dalam proses pengembangan perangkat lunak.
+=======
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -66,3 +95,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 =======
+>>>>>>> eb8c8125e50fc81666211e93d40c3725c2928681
