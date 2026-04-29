@@ -5,10 +5,7 @@ use App\Models\RekonKas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Kita gunakan redirect langsung ke login agar tidak dobel
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {

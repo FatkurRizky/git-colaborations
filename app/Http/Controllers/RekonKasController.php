@@ -113,7 +113,6 @@ class RekonKasController extends Controller
 
     public function exportPdf()
     {
-
         try {
             ini_set('memory_limit', '256M');
             $rekons = RekonKas::with('creator')->latest()->get();
@@ -125,8 +124,8 @@ class RekonKasController extends Controller
         }
     }
 
-public function exportExcel()
-{
-    return Excel::download(new \App\Exports\RekonExport, 'Laporan-Rekon-' . date('Y-m-d') . '.xlsx');
-}
+    public function exportExcel()
+    {
+        return Excel::download(new \App\Exports\RekonExport, 'Laporan-Rekon-' . date('Y-m-d') . '.xlsx');
+    }
 }

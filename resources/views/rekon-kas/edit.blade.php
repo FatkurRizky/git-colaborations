@@ -8,13 +8,13 @@
                 <p class="mt-2 text-sm text-slate-500">
                     Perbarui data rekon untuk tanggal
                     <span class="font-semibold text-slate-700">
-                        {{ $rekonKa->rekon_date?->format('d-m-Y') }}
+                        {{ $rekonKas->rekon_date?->format('d-m-Y') }}
                     </span>
                 </p>
             </div>
 
             <div class="flex flex-wrap gap-2">
-                <a href="{{ route('rekon-kas.show', $rekonKa->id) }}"
+                <a href="{{ route('rekon-kas.show', $rekonKas->id) }}"
                    class="inline-flex items-center rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
                     Lihat Detail
                 </a>
@@ -35,11 +35,11 @@
                         </p>
                     </div>
 
-                    <form action="{{ route('rekon-kas.update', $rekonKa->id) }}" method="POST" class="px-6 py-6">
+                    <form action="{{ route('rekon-kas.update', $rekonKas->id) }}" method="POST" class="px-6 py-6">
                         @csrf
                         @method('PUT')
 
-                        @include('rekon-kas.form', ['rekonKa' => $rekonKa, 'mode' => 'edit'])
+                        @include('rekon-kas.form', ['rekonKas' => $rekonKas, 'mode' => 'edit'])
 
                         <div class="mt-8 flex flex-wrap gap-3 border-t border-slate-200 pt-6">
                             <button type="submit"
@@ -47,7 +47,7 @@
                                 Update Data
                             </button>
 
-                            <a href="{{ route('rekon-kas.show', $rekonKa->id) }}"
+                            <a href="{{ route('rekon-kas.show', $rekonKas->id) }}"
                                class="inline-flex items-center rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600">
                                 Lihat Detail
                             </a>
@@ -68,18 +68,18 @@
                         <div>
                             <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Tanggal</dt>
                             <dd class="mt-1 text-sm font-semibold text-slate-800">
-                                {{ $rekonKa->rekon_date?->format('d-m-Y') }}
+                                {{ $rekonKas->rekon_date?->format('d-m-Y') }}
                             </dd>
                         </div>
 
                         <div>
                             <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Status Saat Ini</dt>
                             <dd class="mt-1">
-                                @if($rekonKa->status === 'sesuai')
+                                @if($rekonKas->status === 'sesuai')
                                     <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                                         Sesuai
                                     </span>
-                                @elseif($rekonKa->status === 'selisih kurang')
+                                @elseif($rekonKas->status === 'selisih kurang')
                                     <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
                                         Selisih Kurang
                                     </span>
@@ -94,7 +94,7 @@
                         <div>
                             <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Dibuat Oleh</dt>
                             <dd class="mt-1 text-sm font-semibold text-slate-800">
-                                {{ $rekonKa->creator->name ?? '-' }}
+                                {{ $rekonKas->creator->name ?? '-' }}
                             </dd>
                         </div>
                     </dl>
