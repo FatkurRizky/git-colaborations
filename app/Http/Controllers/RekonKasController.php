@@ -59,10 +59,21 @@ class RekonKasController extends Controller
         return view('rekon-kas.show', compact('rekonKas'));
     }
 
-    public function create()
+    public function edit()
     {   $rekonKas = new \App\Models\RekonKas();
         return view('rekon-kas.create', compact('rekonKas'));
     }
+
+
+
+    public function create()
+
+    {
+        $rekonKas = new \App\Models\RekonKas();
+        return view('rekon-kas.create', compact('rekonKas'));
+    }
+
+
 
     public function update(Request $request, RekonKas $rekonKas)
     {
@@ -88,6 +99,17 @@ class RekonKasController extends Controller
 
         return redirect()->route('rekon-kas.index')->with('success', 'Data diperbarui & selisih dihitung ulang.');
     }
+
+
+    public function destroy(RekonKas $rekonKas)
+    {
+        // Menghapus data dari database
+        $rekonKas->delete();
+
+        // Mengarahkan kembali ke halaman index dengan pesan sukses
+        return redirect()->route('rekon-kas.index')->with('success', 'Data rekon kas berhasil dihapus.');
+    }
+
 
     public function exportPdf()
     {
