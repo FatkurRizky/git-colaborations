@@ -28,7 +28,6 @@ class RekonKas extends Model
         'status',
         'notes',
         'created_by',
-        'proof_of_expense',
     ];
 
     protected static function booted(): void
