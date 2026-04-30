@@ -24,7 +24,7 @@
                 </p>
             </div>
 
-            <form action="{{ route('rekon-kas.store') }}" method="POST" class="px-6 py-6">
+            <form action="{{ route('rekon-kas.store') }}" method="POST" enctype="multipart/form-data" class="px-6 py-6">
                 @csrf
 
                 @include('rekon-kas.form')
