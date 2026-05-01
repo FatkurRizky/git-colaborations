@@ -4,7 +4,6 @@
 @endphp
 
 <div class="space-y-8">
-    <!-- Informasi Utama -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Informasi Utama</h4>
@@ -39,9 +38,7 @@
                         type="number"
                         name="opening_cash"
                         id="opening_cash"
-                        value="{{ old('opening_cash', $isEdit ? $rekonKa->opening_cash : '') }}"
-                        placeholder="0"
-                        onfocus="this.select()"
+                        value="{{ old('opening_cash', $isEdit ? $rekonKa->opening_cash : 0) }}"
                         min="0"
                         step="1"
                         required
@@ -55,7 +52,6 @@
         </div>
     </div>
 
-    <!-- Pergerakan Kas -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Pergerakan Kas</h4>
@@ -73,9 +69,7 @@
                         type="number"
                         name="cash_income"
                         id="cash_income"
-                        value="{{ old('cash_income', $isEdit ? $rekonKa->cash_income : '') }}"
-                        placeholder="0"
-                        onfocus="this.select()"
+                        value="{{ old('cash_income', $isEdit ? $rekonKa->cash_income : 0) }}"
                         min="0"
                         step="1"
                         required
@@ -97,9 +91,7 @@
                         type="number"
                         name="non_cash_income"
                         id="non_cash_income"
-                        value="{{ old('non_cash_income', $isEdit ? $rekonKa->non_cash_income : '') }}"
-                        placeholder="0"
-                        onfocus="this.select()"
+                        value="{{ old('non_cash_income', $isEdit ? $rekonKa->non_cash_income : 0) }}"
                         min="0"
                         step="1"
                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
@@ -123,9 +115,7 @@
                         type="number"
                         name="operational_cash"
                         id="operational_cash"
-                        value="{{ old('operational_cash', $isEdit ? $rekonKa->operational_cash : '') }}"
-                        placeholder="0"
-                        onfocus="this.select()"
+                        value="{{ old('operational_cash', $isEdit ? $rekonKa->operational_cash : 0) }}"
                         min="0"
                         step="1"
                         required
@@ -147,9 +137,7 @@
                         type="number"
                         name="actual_cash"
                         id="actual_cash"
-                        value="{{ old('actual_cash', $isEdit ? $rekonKa->actual_cash : '') }}"
-                        placeholder="0"
-                        onfocus="this.select()"
+                        value="{{ old('actual_cash', $isEdit ? $rekonKa->actual_cash : 0) }}"
                         min="0"
                         step="1"
                         required
@@ -163,42 +151,6 @@
         </div>
     </div>
 
-    <!-- BUKTI PENDUKUNG (Upload Nota) -->
-    <div>
-        <div class="mb-4">
-            <h4 class="text-base font-semibold text-slate-900">Bukti Pendukung</h4>
-            <p class="text-sm text-slate-500">Upload foto nota/struk pengeluaran operasional (opsional).</p>
-        </div>
-
-        <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-6">
-            <label for="proof_of_expense" class="block text-sm font-medium text-slate-700 mb-2">
-                Pilih File Bukti
-            </label>
-            <input 
-                type="file" 
-                name="proof_of_expense" 
-                id="proof_of_expense" 
-                accept="image/jpeg,image/png,image/jpg,application/pdf"
-                class="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 outline-none transition"
-            >
-            <p class="mt-2 text-xs text-slate-500">Format: JPG, PNG, atau PDF. Maksimal 2MB.</p>
-            
-            @error('proof_of_expense')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
-
-            @if($isEdit && !empty($rekonKa->proof_of_expense))
-                <div class="mt-4 flex items-center gap-2 text-sm text-slate-700 bg-white p-3 border border-slate-200 rounded-lg inline-block">
-                    <span>File saat ini:</span>
-                    <a href="{{ asset('storage/' . $rekonKa->proof_of_expense) }}" target="_blank" class="font-medium text-blue-600 hover:underline">
-                        Lihat Bukti
-                    </a>
-                </div>
-            @endif
-        </div>
-    </div>
-
-    <!-- Catatan Tambahan -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Catatan Tambahan</h4>

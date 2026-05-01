@@ -35,7 +35,7 @@
                         </p>
                     </div>
 
-                    <form action="{{ route('rekon-kas.update', $rekonKas->id) }}" method="POST" enctype="multipart/form-data" class="px-6 py-6">
+                    <form action="{{ route('rekon-kas.update', $rekonKas->id) }}" method="POST" class="px-6 py-6">
                         @csrf
                         @method('PUT')
 

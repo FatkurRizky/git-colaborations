@@ -9,10 +9,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Exports\RekonExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage; // <-- WAJIB TAMBAH INI UNTUK HAPUS FILE
 
 class RekonKasController extends Controller
 {
+    // Index sudah OK (Saran: tambahkan handle error jika filter kosong)
     public function index(Request $request)
     {
         $rekons = RekonKas::with('creator')
@@ -36,30 +36,21 @@ class RekonKasController extends Controller
             'operational_cash' => ['required', 'numeric', 'min:0'],
             'actual_cash'      => ['required', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string'],
-            // TAMBAHAN: Validasi file bukti nota
-            'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'], 
         ]);
 
+    
         $expected_cash = ($validated['opening_cash'] + $validated['cash_income']) - $validated['operational_cash'];
         $difference = $validated['actual_cash'] - $expected_cash;
-
-        // TAMBAHAN: Proses Upload File
-        $proofPath = null;
-        if ($request->hasFile('proof_of_expense')) {
-            // Simpan ke folder 'storage/app/public/proofs'
-            $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
-        }
         
         RekonKas::create([
             ...$validated,
-            'non_cash_income'  => $validated['non_cash_income'] ?? 0,
-            'difference'       => $difference,
-            'status'           => $difference == 0 ? 'sesuai' : 'selisih kurang', // Perbaikan status jika perlu
-            'created_by'       => Auth::id(),
-            'proof_of_expense' => $proofPath, // Masukkan path ke database
+            'non_cash_income' => $validated['non_cash_income'] ?? 0,
+            'difference'      => $difference,
+            'status'          => $difference == 0 ? 'sesuai' : 'selisih',
+            'created_by'      => Auth::id(),
         ]);
 
-        return redirect()->route('rekon-kas.index')->with('success', 'Data rekon berhasil ditambahkan.');
+        return redirect()->route('rekon-kas.index')->with('success', 'Data rekon berhasil dihitung otomatis.');
     }
 
     public function show(RekonKas $rekonKas) 
@@ -68,21 +59,16 @@ class RekonKasController extends Controller
         return view('rekon-kas.show', compact('rekonKas'));
     }
 
-    public function edit()
-    {   $rekonKas = new \App\Models\RekonKas();
-        return view('rekon-kas.create', compact('rekonKas'));
-    }
-
-
-
     public function create()
-
-    {
+    {   
         $rekonKas = new \App\Models\RekonKas();
         return view('rekon-kas.create', compact('rekonKas'));
     }
 
-
+    public function edit(RekonKas $rekonKas)
+    {
+        return view('rekon-kas.edit', compact('rekonKas'));
+    }
 
     public function update(Request $request, RekonKas $rekonKas)
     {
@@ -94,47 +80,20 @@ class RekonKasController extends Controller
             'operational_cash' => ['required', 'numeric', 'min:0'],
             'actual_cash'      => ['required', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string'],
-            // TAMBAHAN: Validasi file bukti nota
-            'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
         ]);
 
+        // Hitung ulang selisih jika ada perubahan angka
         $expected_cash = ($validated['opening_cash'] + $validated['cash_income']) - $validated['operational_cash'];
         $difference = $validated['actual_cash'] - $expected_cash;
 
-        // TAMBAHAN: Proses Update File
-        $proofPath = $rekonKas->proof_of_expense; // Ambil file lama sebagai default
-
-        if ($request->hasFile('proof_of_expense')) {
-            // Hapus file lama dari server jika ada
-            if ($proofPath && Storage::disk('public')->exists($proofPath)) {
-                Storage::disk('public')->delete($proofPath);
-            }
-            
-            // Simpan file baru
-            $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
-        }
-
         $rekonKas->update([
             ...$validated,
-            'non_cash_income'  => $validated['non_cash_income'] ?? 0,
-            'difference'       => $difference,
-            'status'           => $difference == 0 ? 'sesuai' : 'selisih kurang',
-            'proof_of_expense' => $proofPath, // Update database
+            'difference' => $difference,
+            'status'     => $difference == 0 ? 'sesuai' : 'selisih',
         ]);
 
         return redirect()->route('rekon-kas.index')->with('success', 'Data diperbarui & selisih dihitung ulang.');
     }
-
-
-    public function destroy(RekonKas $rekonKas)
-    {
-        // Menghapus data dari database
-        $rekonKas->delete();
-
-        // Mengarahkan kembali ke halaman index dengan pesan sukses
-        return redirect()->route('rekon-kas.index')->with('success', 'Data rekon kas berhasil dihapus.');
-    }
-
 
     public function exportPdf()
     {

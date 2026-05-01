@@ -127,21 +127,9 @@
             </div>
         </div>
 
-        <!-- Bagian Catatan & Lampiran yang sudah disederhanakan -->
         <div class="mt-6 rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
-            <div class="border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+            <div class="border-b border-slate-200 px-6 py-4">
                 <h3 class="text-lg font-semibold text-slate-900">Catatan</h3>
-                
-                <!-- Tombol kecil muncul di pojok kanan Header jika ada file terlampir -->
-                @if($rekonKas->proof_of_expense)
-                    <a href="{{ asset('storage/' . $rekonKas->proof_of_expense) }}" target="_blank" 
-                       class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 hover:bg-blue-100 transition">
-                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
-                        </svg>
-                        Lihat Struk/Nota
-                    </a>
-                @endif
             </div>
 
             <div class="px-6 py-4">
