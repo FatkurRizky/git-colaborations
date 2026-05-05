@@ -9,10 +9,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Exports\RekonExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage; // <-- WAJIB TAMBAH INI UNTUK HAPUS FILE
+use Illuminate\Support\Facades\Storage;
 
 class RekonKasController extends Controller
 {
+    /**
+     * Menampilkan daftar rekon kas dengan fitur filter dan pagination.
+     */
     public function index(Request $request)
     {
         $rekons = RekonKas::with('creator')
@@ -26,6 +29,9 @@ class RekonKasController extends Controller
         return view('rekon-kas.index', compact('rekons'));
     }
 
+    /**
+     * Menyimpan data rekon baru beserta file bukti operasional.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,17 +42,15 @@ class RekonKasController extends Controller
             'operational_cash' => ['required', 'numeric', 'min:0'],
             'actual_cash'      => ['required', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string'],
-            // TAMBAHAN: Validasi file bukti nota
             'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'], 
         ]);
 
         $expected_cash = ($validated['opening_cash'] + $validated['cash_income']) - $validated['operational_cash'];
         $difference = $validated['actual_cash'] - $expected_cash;
 
-        // TAMBAHAN: Proses Upload File
+        // Proses Upload File Bukti
         $proofPath = null;
         if ($request->hasFile('proof_of_expense')) {
-            // Simpan ke folder 'storage/app/public/proofs'
             $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
         }
         
@@ -54,9 +58,9 @@ class RekonKasController extends Controller
             ...$validated,
             'non_cash_income'  => $validated['non_cash_income'] ?? 0,
             'difference'       => $difference,
-            'status'           => $difference == 0 ? 'sesuai' : 'selisih kurang', // Perbaikan status jika perlu
+            'status'           => $difference == 0 ? 'sesuai' : ($difference < 0 ? 'selisih kurang' : 'selisih lebih'),
             'created_by'       => Auth::id(),
-            'proof_of_expense' => $proofPath, // Masukkan path ke database
+            'proof_of_expense' => $proofPath,
         ]);
 
         return redirect()->route('rekon-kas.index')->with('success', 'Data rekon berhasil ditambahkan.');
@@ -68,22 +72,20 @@ class RekonKasController extends Controller
         return view('rekon-kas.show', compact('rekonKas'));
     }
 
-    public function edit()
-    {   $rekonKas = new \App\Models\RekonKas();
-        return view('rekon-kas.create', compact('rekonKas'));
-    }
-
-
-
     public function create()
-
     {
         $rekonKas = new \App\Models\RekonKas();
         return view('rekon-kas.create', compact('rekonKas'));
     }
 
+    public function edit(RekonKas $rekonKas)
+    { 
+        return view('rekon-kas.edit', compact('rekonKas'));
+    }
 
-
+    /**
+     * Memperbarui data rekon dan mengelola pergantian file bukti.
+     */
     public function update(Request $request, RekonKas $rekonKas)
     {
         $validated = $request->validate([
@@ -94,23 +96,19 @@ class RekonKasController extends Controller
             'operational_cash' => ['required', 'numeric', 'min:0'],
             'actual_cash'      => ['required', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string'],
-            // TAMBAHAN: Validasi file bukti nota
             'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
         ]);
 
         $expected_cash = ($validated['opening_cash'] + $validated['cash_income']) - $validated['operational_cash'];
         $difference = $validated['actual_cash'] - $expected_cash;
 
-        // TAMBAHAN: Proses Update File
-        $proofPath = $rekonKas->proof_of_expense; // Ambil file lama sebagai default
+        $proofPath = $rekonKas->proof_of_expense;
 
         if ($request->hasFile('proof_of_expense')) {
-            // Hapus file lama dari server jika ada
+            // Hapus file lama jika ada file baru yang diupload
             if ($proofPath && Storage::disk('public')->exists($proofPath)) {
                 Storage::disk('public')->delete($proofPath);
             }
-            
-            // Simpan file baru
             $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
         }
 
@@ -118,29 +116,29 @@ class RekonKasController extends Controller
             ...$validated,
             'non_cash_income'  => $validated['non_cash_income'] ?? 0,
             'difference'       => $difference,
-            'status'           => $difference == 0 ? 'sesuai' : 'selisih kurang',
-            'proof_of_expense' => $proofPath, // Update database
+            'status'           => $difference == 0 ? 'sesuai' : ($difference < 0 ? 'selisih kurang' : 'selisih lebih'),
+            'proof_of_expense' => $proofPath,
         ]);
 
         return redirect()->route('rekon-kas.index')->with('success', 'Data diperbarui & selisih dihitung ulang.');
     }
 
-
     public function destroy(RekonKas $rekonKas)
     {
-        // Menghapus data dari database
-        $rekonKas->delete();
+        // Hapus file bukti fisik jika ada sebelum menghapus record
+        if ($rekonKas->proof_of_expense && Storage::disk('public')->exists($rekonKas->proof_of_expense)) {
+            Storage::disk('public')->delete($rekonKas->proof_of_expense);
+        }
 
-        // Mengarahkan kembali ke halaman index dengan pesan sukses
+        $rekonKas->delete();
         return redirect()->route('rekon-kas.index')->with('success', 'Data rekon kas berhasil dihapus.');
     }
-
 
     public function exportPdf()
     {
         try {
             ini_set('memory_limit', '256M');
-            $rekons = RekonKas::with('creator')->latest()->get();
+            $rekons = RekonKas::with('creator')->latest('rekon_date')->get();
             
             $pdf = Pdf::loadView('rekon-kas.pdf', compact('rekons'));
             return $pdf->setPaper('a4', 'landscape')->download('Laporan-Rekon-'.now()->format('Y-m-d').'.pdf');
