@@ -119,7 +119,7 @@
                 </div>
             <?php endif; ?>
         <?php else: ?>
-            <div class="px-4 py-6 text-sm text-slate-500">
+            <div class="px-4 py-6 text-sm text-slate-500 text-center">
                 Belum ada data rekon kas.
             </div>
         <?php endif; ?>
