@@ -119,7 +119,7 @@
                 </div>
             @endif
         @else
-            <div class="px-4 py-6 text-sm text-slate-500 text-center">
+            <div class="px-4 py-6 text-sm text-slate-500">
                 Belum ada data rekon kas.
             </div>
         @endif

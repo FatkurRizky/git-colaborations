@@ -4,6 +4,7 @@
 @endphp
 
 <div class="space-y-8">
+    <!-- Informasi Utama -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Informasi Utama</h4>
@@ -54,7 +55,7 @@
         </div>
     </div>
 
-
+    <!-- Pergerakan Kas -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Pergerakan Kas</h4>
@@ -162,7 +163,7 @@
         </div>
     </div>
 
-
+    <!-- BUKTI PENDUKUNG (Upload Nota) -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Bukti Pendukung</h4>

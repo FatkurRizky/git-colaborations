@@ -1,4 +1,3 @@
-# Minggu Ke-5
 # Menambahkan Fitur Output Operasional pada kalkulator rekon
 
 ## Frontend
@@ -20,15 +19,5 @@
 3. Export Logic (Excel & PDF) Membuat class Export khusus untuk memetakan kolom data database menjadi format .xlsx dan .pdf yang rapi.
 
 4. Routing Menyiapkan endpoint(misal: GET /rekon/export/{format}) untuk memicu proses download file.
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Minggu Ke-6
-# Menambahkan Fitur filter pada grafik
 
-1. Grafik Interaktif: Menampilkan tren selisih kas harian menggunakan Chart.js.
-
-2. Filter Bulan: Dropdown untuk melihat histori data hingga 6 bulan ke belakang.
-
-3. DashboardController: Pemisahan logika dashboard ke controller baru agar kode lebih rapi.
-
-4. Validasi Data: Menampilkan pesan khusus jika data pada bulan yang dipilih masih kosong.
