@@ -8,7 +8,6 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property mixed $created_by
-     * @property string|null $proof_of_expense
      * @property string|null $notes
      * @property mixed $status
      * @property integer $difference
@@ -32,7 +31,6 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereDifference($value)
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereStatus($value)
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereNotes($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereProofOfExpense($value)
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereCreatedBy($value)
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<RekonKas>|RekonKas whereUpdatedAt($value)
