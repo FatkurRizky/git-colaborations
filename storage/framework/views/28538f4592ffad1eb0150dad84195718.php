@@ -1,9 +1,10 @@
-@php
+<?php
     $isEdit = isset($rekonKa);
     $mode = $mode ?? 'create';
-@endphp
+?>
 
 <div class="space-y-8">
+    <!-- Informasi Utama -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Informasi Utama</h4>
@@ -19,13 +20,20 @@
                     type="date"
                     name="rekon_date"
                     id="rekon_date"
-                    value="{{ old('rekon_date', $isEdit && $rekonKa->rekon_date ? $rekonKa->rekon_date->format('Y-m-d') : '') }}"
+                    value="<?php echo e(old('rekon_date', $isEdit && $rekonKa->rekon_date ? $rekonKa->rekon_date->format('Y-m-d') : '')); ?>"
                     required
                     class="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 >
-                @error('rekon_date')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['rekon_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div>
@@ -38,7 +46,7 @@
                         type="number"
                         name="opening_cash"
                         id="opening_cash"
-                        value="{{ old('opening_cash', $isEdit ? $rekonKa->opening_cash : '') }}"
+                        value="<?php echo e(old('opening_cash', $isEdit ? $rekonKa->opening_cash : '')); ?>"
                         placeholder="0"
                         onfocus="this.select()"
                         min="0"
@@ -47,14 +55,21 @@
                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     >
                 </div>
-                @error('opening_cash')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['opening_cash'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
 
-
+    <!-- Pergerakan Kas -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Pergerakan Kas</h4>
@@ -72,7 +87,7 @@
                         type="number"
                         name="cash_income"
                         id="cash_income"
-                        value="{{ old('cash_income', $isEdit ? $rekonKa->cash_income : '') }}"
+                        value="<?php echo e(old('cash_income', $isEdit ? $rekonKa->cash_income : '')); ?>"
                         placeholder="0"
                         onfocus="this.select()"
                         min="0"
@@ -81,9 +96,16 @@
                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     >
                 </div>
-                @error('cash_income')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['cash_income'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div>
@@ -96,7 +118,7 @@
                         type="number"
                         name="non_cash_income"
                         id="non_cash_income"
-                        value="{{ old('non_cash_income', $isEdit ? $rekonKa->non_cash_income : '') }}"
+                        value="<?php echo e(old('non_cash_income', $isEdit ? $rekonKa->non_cash_income : '')); ?>"
                         placeholder="0"
                         onfocus="this.select()"
                         min="0"
@@ -107,9 +129,16 @@
                 <p class="mt-2 text-xs leading-5 text-slate-500">
                     Nilai ini hanya untuk catatan pendapatan, tidak dihitung ke kas fisik.
                 </p>
-                @error('non_cash_income')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['non_cash_income'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div>
@@ -122,7 +151,7 @@
                         type="number"
                         name="operational_cash"
                         id="operational_cash"
-                        value="{{ old('operational_cash', $isEdit ? $rekonKa->operational_cash : '') }}"
+                        value="<?php echo e(old('operational_cash', $isEdit ? $rekonKa->operational_cash : '')); ?>"
                         placeholder="0"
                         onfocus="this.select()"
                         min="0"
@@ -131,9 +160,16 @@
                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     >
                 </div>
-                @error('operational_cash')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['operational_cash'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div>
@@ -146,7 +182,7 @@
                         type="number"
                         name="actual_cash"
                         id="actual_cash"
-                        value="{{ old('actual_cash', $isEdit ? $rekonKa->actual_cash : '') }}"
+                        value="<?php echo e(old('actual_cash', $isEdit ? $rekonKa->actual_cash : '')); ?>"
                         placeholder="0"
                         onfocus="this.select()"
                         min="0"
@@ -155,14 +191,21 @@
                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     >
                 </div>
-                @error('actual_cash')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                <?php $__errorArgs = ['actual_cash'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
 
-
+    <!-- BUKTI PENDUKUNG (Upload Nota) -->
     <div>
         <div class="mb-4">
             <h4 class="text-base font-semibold text-slate-900">Bukti Pendukung</h4>
@@ -182,18 +225,25 @@
             >
             <p class="mt-2 text-xs text-slate-500">Format: JPG, PNG, atau PDF. Maksimal 2MB.</p>
             
-            @error('proof_of_expense')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+            <?php $__errorArgs = ['proof_of_expense'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
-            @if($isEdit && !empty($rekonKa->proof_of_expense))
+            <?php if($isEdit && !empty($rekonKa->proof_of_expense)): ?>
                 <div class="mt-4 flex items-center gap-2 text-sm text-slate-700 bg-white p-3 border border-slate-200 rounded-lg inline-block">
                     <span>File saat ini:</span>
-                    <a href="{{ asset('storage/' . $rekonKa->proof_of_expense) }}" target="_blank" class="font-medium text-blue-600 hover:underline">
+                    <a href="<?php echo e(asset('storage/' . $rekonKa->proof_of_expense)); ?>" target="_blank" class="font-medium text-blue-600 hover:underline">
                         Lihat Bukti
                     </a>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 
@@ -214,10 +264,17 @@
                 rows="5"
                 class="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 placeholder="Tulis catatan tambahan di sini..."
-            >{{ old('notes', $isEdit ? $rekonKa->notes : '') }}</textarea>
-            @error('notes')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+            ><?php echo e(old('notes', $isEdit ? $rekonKa->notes : '')); ?></textarea>
+            <?php $__errorArgs = ['notes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         </div>
     </div>
-</div>
+</div><?php /**PATH /home/muhammad/Kalkulator_rekon/resources/views/rekon-kas/form.blade.php ENDPATH**/ ?>

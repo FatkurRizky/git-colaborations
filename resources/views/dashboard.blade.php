@@ -65,11 +65,31 @@
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center justify-between mb-8">
                 <h3 class="text-lg font-black text-slate-900 tracking-tight">Grafik Tren Selisih Kas</h3>
-                <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full uppercase">7 Hari
-                    Terakhir</span>
+                
+                <!-- DROPDOWN FILTER BULAN (Perubahan di sini) -->
+                <form action="{{ route('dashboard') }}" method="GET">
+                    <select name="chart_month" onchange="this.form.submit()" 
+                        class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-2 rounded-xl border-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                        @foreach($monthOptions as $value => $label)
+                            <option value="{{ $value }}" {{ $selectedMonth == $value ? 'selected' : '' }}>
+                                {{ strtoupper($label) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
             </div>
+
             <div class="relative h-72 w-full">
-                <canvas id="rekonChart"></canvas>
+                @if(count($chartLabels) > 0)
+                    <canvas id="rekonChart"></canvas>
+                @else
+                    <div class="flex flex-col items-center justify-center h-full text-slate-400">
+                        <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <p class="font-bold">Tidak ada data rekon di bulan ini</p>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -78,9 +98,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('rekonChart').getContext('2d');
+            const canvasElement = document.getElementById('rekonChart');
+            if(!canvasElement) return;
 
-            // Buat gradien untuk background chart
+            const ctx = canvasElement.getContext('2d');
+
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
             gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
@@ -92,7 +114,6 @@
                     datasets: [{
                         label: 'Selisih (Rp)',
                         data: {!! json_encode($chartData) !!},
-
                         borderColor: '#10b981',
                         borderWidth: 4,
                         pointBackgroundColor: function(context) {
@@ -115,22 +136,11 @@
                         mode: 'index',
                         intersect: false,
                     },
-
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             backgroundColor: 'rgba(30, 41, 59, 0.95)',
                             padding: 20,
-                            bodyFont: {
-                                size: 14
-                            },
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold',
-                                family: 'sans-serif'
-                            },
                             displayColors: false,
                             callbacks: {
                                 label: function(context) {
@@ -144,30 +154,17 @@
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    weight: 'bold'
-                                }
-                            },
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold' } },
                             title: {
                                 display: true,
                                 text: 'TANGGAL REKAP',
                                 color: '#94a3b8',
-                                font: {
-                                    size: 11,
-                                    weight: 'bold',
-                                    family: 'sans-serif'
-                                }
+                                font: { size: 11, weight: 'bold' }
                             }
                         },
                         y: {
-                            grid: {
-                                borderDash: [10, 10],
-                                color: '#e2e8f0'
-                            },
+                            grid: { borderDash: [10, 10], color: '#e2e8f0' },
                             ticks: {
                                 callback: value => 'Rp ' + value.toLocaleString('id-ID')
                             },
@@ -175,11 +172,7 @@
                                 display: true,
                                 text: 'NOMINAL SELISIH',
                                 color: '#94a3b8',
-                                font: {
-                                    size: 11,
-                                    weight: 'bold',
-                                    family: 'sans-serif'
-                                }
+                                font: { size: 11, weight: 'bold' }
                             }
                         }
                     }
