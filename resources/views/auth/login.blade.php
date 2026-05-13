@@ -1,13 +1,13 @@
 <x-layouts.auth title="Login">
-    <div class="grid min-h-screen lg:grid-cols-2">
+    <div class="min-h-screen flex items-center justify-center bg-slate-100">
 
         <div class="flex items-center justify-center px-6 py-10 sm:px-10 order-2 lg:order-1 bg-slate-50/50">
             <div class="w-full max-w-md relative">
-                <div class="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200 sm:p-10">
+                <div class="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-[30px] shadow-2xl p-10">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-black text-gray-900 tracking-tight">Login Kalkulator</h2>
                         <p class="mt-2 text-sm text-slate-500">
-                            Selamat datang kembali, silakan login
+                            Selamat datang kembali, silahkan login
                         </p>
                     </div>
 
@@ -49,8 +49,8 @@
                             </div>
                         </div>
 
-                        <button type="submit"
-                            class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-4 py-4 text-sm font-bold text-white shadow-lg shadow-emerald-800/20 transition hover:bg-emerald-700 active:scale-95">
+                        <button type="submit" 
+                            class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-4 py-4 text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition-all active:scale-95 focus:ring-4 focus:ring-emerald-200">
                             Masuk Sekarang
                         </button>
                     </form>
