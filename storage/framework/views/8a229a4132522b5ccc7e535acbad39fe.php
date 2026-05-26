@@ -65,32 +65,11 @@
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <div class="flex items-center justify-between mb-8">
                 <h3 class="text-lg font-black text-slate-900 tracking-tight">Grafik Tren Selisih Kas</h3>
-                
-                <!-- DROPDOWN FILTER BULAN (Perubahan di sini) -->
-                <form action="<?php echo e(route('dashboard')); ?>" method="GET">
-                    <select name="chart_month" onchange="this.form.submit()" 
-                        class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-2 rounded-xl border-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
-                        <?php $__currentLoopData = $monthOptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <option value="<?php echo e($value); ?>" <?php echo e($selectedMonth == $value ? 'selected' : ''); ?>>
-                                <?php echo e(strtoupper($label)); ?>
-
-                            </option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </select>
-                </form>
+                <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full uppercase">7 Hari
+                    Terakhir</span>
             </div>
-
             <div class="relative h-72 w-full">
-                <?php if(count($chartLabels) > 0): ?>
-                    <canvas id="rekonChart"></canvas>
-                <?php else: ?>
-                    <div class="flex flex-col items-center justify-center h-full text-slate-400">
-                        <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        <p class="font-bold">Tidak ada data rekon di bulan ini</p>
-                    </div>
-                <?php endif; ?>
+                <canvas id="rekonChart"></canvas>
             </div>
         </div>
 
@@ -99,11 +78,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const canvasElement = document.getElementById('rekonChart');
-            if(!canvasElement) return;
+            const ctx = document.getElementById('rekonChart').getContext('2d');
 
-            const ctx = canvasElement.getContext('2d');
-
+            // Buat gradien untuk background chart
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
             gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
@@ -115,6 +92,7 @@
                     datasets: [{
                         label: 'Selisih (Rp)',
                         data: <?php echo json_encode($chartData); ?>,
+
                         borderColor: '#10b981',
                         borderWidth: 4,
                         pointBackgroundColor: function(context) {
@@ -137,11 +115,22 @@
                         mode: 'index',
                         intersect: false,
                     },
+
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: false
+                        },
                         tooltip: {
                             backgroundColor: 'rgba(30, 41, 59, 0.95)',
                             padding: 20,
+                            bodyFont: {
+                                size: 14
+                            },
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold',
+                                family: 'sans-serif'
+                            },
                             displayColors: false,
                             callbacks: {
                                 label: function(context) {
@@ -155,17 +144,30 @@
                     },
                     scales: {
                         x: {
-                            grid: { display: false },
-                            ticks: { font: { weight: 'bold' } },
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
                             title: {
                                 display: true,
                                 text: 'TANGGAL REKAP',
                                 color: '#94a3b8',
-                                font: { size: 11, weight: 'bold' }
+                                font: {
+                                    size: 11,
+                                    weight: 'bold',
+                                    family: 'sans-serif'
+                                }
                             }
                         },
                         y: {
-                            grid: { borderDash: [10, 10], color: '#e2e8f0' },
+                            grid: {
+                                borderDash: [10, 10],
+                                color: '#e2e8f0'
+                            },
                             ticks: {
                                 callback: value => 'Rp ' + value.toLocaleString('id-ID')
                             },
@@ -173,7 +175,11 @@
                                 display: true,
                                 text: 'NOMINAL SELISIH',
                                 color: '#94a3b8',
-                                font: { size: 11, weight: 'bold' }
+                                font: {
+                                    size: 11,
+                                    weight: 'bold',
+                                    family: 'sans-serif'
+                                }
                             }
                         }
                     }
@@ -182,4 +188,5 @@
         });
     </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/muhammad/Kalkulator_rekon/resources/views/dashboard.blade.php ENDPATH**/ ?>

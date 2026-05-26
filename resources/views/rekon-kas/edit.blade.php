@@ -8,13 +8,13 @@
                 <p class="mt-2 text-sm text-slate-500">
                     Perbarui data rekon untuk tanggal
                     <span class="font-semibold text-slate-700">
-                        {{ $rekonKas->rekon_date?->format('d-m-Y') }}
+                        {{ $rekonKas->rekon_date ? \Carbon\Carbon::parse($rekonKas->rekon_date)->format('d-m-Y') : '-' }}
                     </span>
                 </p>
             </div>
 
             <div class="flex flex-wrap gap-2">
-                <a href="{{ route('rekon-kas.show', $rekonKas->id) }}"
+                <a href="{{ route('rekon-kas.show', $rekonKas) }}"
                    class="inline-flex items-center rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
                     Lihat Detail
                 </a>
@@ -35,7 +35,7 @@
                         </p>
                     </div>
 
-                    <form action="{{ route('rekon-kas.update', $rekonKas->id) }}" method="POST" enctype="multipart/form-data" class="px-6 py-6">
+                    <form action="{{ route('rekon-kas.update', $rekonKas) }}" method="POST" enctype="multipart/form-data" class="px-6 py-6">
                         @csrf
                         @method('PUT')
 
@@ -47,7 +47,7 @@
                                 Update Data
                             </button>
 
-                            <a href="{{ route('rekon-kas.show', $rekonKas->id) }}"
+                            <a href="{{ route('rekon-kas.show', $rekonKas) }}"
                                class="inline-flex items-center rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600">
                                 Lihat Detail
                             </a>
@@ -68,7 +68,7 @@
                         <div>
                             <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Tanggal</dt>
                             <dd class="mt-1 text-sm font-semibold text-slate-800">
-                                {{ $rekonKas->rekon_date?->format('d-m-Y') }}
+                                {{ $rekonKas->rekon_date ? \Carbon\Carbon::parse($rekonKas->rekon_date)->format('d-m-Y') : '-' }}
                             </dd>
                         </div>
 
