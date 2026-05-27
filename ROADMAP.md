@@ -42,3 +42,11 @@
 
 =======
 >>>>>>> 1417f7b760815accad75b03cc6304ca499156cb3
+
+# Minggu ke-8
+# Redesign Aplikasi Kalkulator Rekon
+1. Redesign Dashboard
+
+# Minggu ke-9
+# Redesign Aplikasi Kalkulator Rekon
+1. Redesign Dashboard
