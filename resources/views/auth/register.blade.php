@@ -66,11 +66,6 @@
                             </div>
                         </div>
 
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm text-slate-600 flex items-center justify-between italic-none">
-                            <span class="font-medium">Role Default:</span>
-                            <span class="font-black text-slate-900 uppercase">Karyawan</span>
-                        </div>
-
                         <button type="submit"
                             class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-xl shadow-emerald-800/20 transition-all hover:-translate-y-1 active:scale-95 text-sm uppercase tracking-widest">
                             Daftar Sekarang
