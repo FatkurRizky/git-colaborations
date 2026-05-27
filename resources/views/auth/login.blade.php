@@ -1,9 +1,10 @@
 <x-layouts.auth title="Login">
-    <div class="min-h-screen flex items-center justify-center bg-slate-100">
+    <div class="min-h-screen flex items-center justify-center bg-slate-100 p-6">
+        <div class="w-full max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-2xl grid lg:grid-cols-[0.8fr_1.2fr]">
 
-        <div class="flex items-center justify-center px-6 py-10 sm:px-10 order-2 lg:order-1 bg-slate-50/50">
+        <div class="flex items-center justify-center px-6 py-10 sm:px-10 order-2 lg:order-1">
             <div class="w-full max-w-md relative">
-                <div class="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-[30px] shadow-2xl p-10">
+                <div class="w-full max-w-md p-8">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-black text-gray-900 tracking-tight">Login Kalkulator</h2>
                         <p class="mt-2 text-sm text-slate-500">
@@ -94,6 +95,7 @@
             </div>
         </div>
     </div>
+</div>
 </x-layouts.auth>
 
 <script>
