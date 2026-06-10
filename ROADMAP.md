@@ -50,3 +50,8 @@
 # Minggu ke-9
 # Redesign Aplikasi Kalkulator Rekon
 1. Redesign Dashboard
+
+
+
+# Minggu ke-10
+1. Finishing serta testing 
