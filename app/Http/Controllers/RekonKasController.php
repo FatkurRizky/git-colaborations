@@ -37,7 +37,7 @@ class RekonKasController extends Controller
             'actual_cash'      => ['required', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string'],
             // TAMBAHAN: Validasi file bukti nota
-            'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'], 
+            'proof_of_expense' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf', 'max:2048'],
         ]);
 
         $expected_cash = ($validated['opening_cash'] + $validated['cash_income']) - $validated['operational_cash'];
@@ -49,7 +49,7 @@ class RekonKasController extends Controller
             // Simpan ke folder 'storage/app/public/proofs'
             $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
         }
-        
+
         RekonKas::create([
             ...$validated,
             'non_cash_income'  => $validated['non_cash_income'] ?? 0,
@@ -62,15 +62,17 @@ class RekonKasController extends Controller
         return redirect()->route('rekon-kas.index')->with('success', 'Data rekon berhasil ditambahkan.');
     }
 
-    public function show(RekonKas $rekonKas) 
+    public function show(RekonKas $rekonKas)
     {
         $rekonKas->load('creator');
         return view('rekon-kas.show', compact('rekonKas'));
     }
 
-    public function edit()
-    {   $rekonKas = new \App\Models\RekonKas();
-        return view('rekon-kas.create', compact('rekonKas'));
+    // Pastikan ada parameter (RekonKas $rekonKas) di dalam kurung!
+    public function edit(RekonKas $rekonKas)
+    {
+        // Melempar data asli dari database ke view edit
+        return view('rekon-kas.edit', compact('rekonKas'));
     }
 
 
@@ -109,7 +111,7 @@ class RekonKasController extends Controller
             if ($proofPath && Storage::disk('public')->exists($proofPath)) {
                 Storage::disk('public')->delete($proofPath);
             }
-            
+
             // Simpan file baru
             $proofPath = $request->file('proof_of_expense')->store('proofs', 'public');
         }
@@ -118,13 +120,13 @@ class RekonKasController extends Controller
             ...$validated,
             'non_cash_income'  => $validated['non_cash_income'] ?? 0,
             'difference'       => $difference,
-            'status'           => $difference == 0 ? 'sesuai' : 'selisih kurang',
+            // PERBAIKAN: Deteksi 3 kondisi status (sesuai, selisih lebih, selisih kurang)
+            'status'           => $difference == 0 ? 'sesuai' : ($difference > 0 ? 'selisih lebih' : 'selisih kurang'),
             'proof_of_expense' => $proofPath, // Update database
         ]);
 
         return redirect()->route('rekon-kas.index')->with('success', 'Data diperbarui & selisih dihitung ulang.');
     }
-
 
     public function destroy(RekonKas $rekonKas)
     {
@@ -141,9 +143,9 @@ class RekonKasController extends Controller
         try {
             ini_set('memory_limit', '256M');
             $rekons = RekonKas::with('creator')->latest()->get();
-            
+
             $pdf = Pdf::loadView('rekon-kas.pdf', compact('rekons'));
-            return $pdf->setPaper('a4', 'landscape')->download('Laporan-Rekon-'.now()->format('Y-m-d').'.pdf');
+            return $pdf->setPaper('a4', 'landscape')->download('Laporan-Rekon-' . now()->format('Y-m-d') . '.pdf');
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal generate PDF: ' . $e->getMessage());
         }
