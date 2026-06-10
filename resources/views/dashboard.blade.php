@@ -7,8 +7,12 @@
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Dashboard Ringkasan</h1>
-                <p class="text-sm text-slate-500">Pantau performa kas dan selisih harian Anda.</p>
+                 <h1 class="text-2xl font-black text-slate-900 tracking-tight">
+                    Selamat Datang, {{ Auth::user()->name }} 👋
+                 </h1>
+                <p class="text-sm text-slate-500">
+                     Pantau performa kas dan selisih harian Anda.
+                 </p>
             </div>
             <div class="flex items-center gap-2">
                 <a href="{{ route('rekon.export.pdf') }}"
@@ -30,20 +34,54 @@
                 </a>
 
                 <a href="{{ route('rekon-kas.create') }}"
-                    class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-200">
-                    + Input Rekon
+                    class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 transition shadow-sm">
+                     + Input Rekon
                 </a>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+             <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        Total Kas Hari Ini
+                     </p>
+
+                     <h3 class="text-2xl font-black mt-1 font-mono text-emerald-600">
+                        Rp{{ number_format($totalKasHariIni,0,',','.') }}
+                    </h3>
+                </div>
+
+                <div class="bg-emerald-100 p-3 rounded-2xl">
+                     💰
+                 </div>
+             </div>
+        </div>
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Kas Hari Ini</p>
                 <h3 class="text-2xl font-black text-slate-900 mt-1 font-mono text-emerald-600">
                     Rp{{ number_format($totalKasHariIni, 0, ',', '.') }}</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Status Terakhir</p>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                 Status Terakhir
+                             </p>
+
+                            <div class="mt-2">
+                                 <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-black rounded-lg uppercase">
+                                     {{ strtoupper($statusTerakhir) }}
+                                 </span>
+                             </div>
+                        </div>
+
+                        <div class="bg-blue-100 p-3 rounded-2xl">
+                             ✅
+                         </div>
+                    </div>
+                </div>
                 <div class="mt-2">
                     <span
                         class="px-3 py-1 bg-green-100 text-green-700 text-xs font-black rounded-lg uppercase">{{ strtoupper($statusTerakhir) }}</span>
