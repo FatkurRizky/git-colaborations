@@ -25,7 +25,7 @@
 >>>>>>> 1417f7b760815accad75b03cc6304ca499156cb3
 
 
-<<<<<<< HEAD
+
 1. Grafik Interaktif: Menampilkan tren selisih kas harian menggunakan Chart.js.
 
 2. Filter Bulan: Dropdown untuk melihat histori data hingga 6 bulan ke belakang.
