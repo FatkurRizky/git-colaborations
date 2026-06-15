@@ -12,7 +12,13 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-100 text-slate-900">
+    <body class="font-sans antialiased bg-gradient-to-br from-emerald-50 via-green-100 to-lime-100 text-slate-900 relative overflow-x-hidden">
+
+        <div class="fixed inset-0 -z-10">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-30"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-green-200 rounded-full blur-3xl opacity-30"></div>
+        </div>
+
         <div class="min-h-screen">
             @include('layouts.navigation')
 
