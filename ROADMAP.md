@@ -55,3 +55,10 @@
 
 # Minggu ke-10
 1. Finishing serta testing 
+
+# Minggu ke-11
+1. Finishing testing
+
+# Minggu ke-12
+1. Deployment
+2. Push to Production
