@@ -1,10 +1,11 @@
 <x-layouts.auth title="Register">
-    <div class="grid min-h-screen lg:grid-cols-2 bg-white">
+   <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#dff1f5] to-[#e7f6e9] px-6 py-10">
+    <div class="w-full max-w-7xl grid lg:grid-cols-2 rounded-[2.5rem] overflow-hidden bg-white shadow-2xl">
 
-        <div class="flex items-center justify-center px-6 py-12 sm:px-12 bg-slate-50/50 order-1">
-            <div class="w-full max-w-md relative">
+        <div class="flex items-center justify-center px-16 py-14 bg-white">
+            <div class="w-full max-w-lg relative">
                 
-                <div class="rounded-[2.5rem] bg-white p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] ring-1 ring-slate-200 sm:p-10 transition-all duration-300 hover:shadow-2xl">
+                <div class="p-8 sm:p-10">
                     <div class="mb-10 text-center lg:text-left">
                         <h2 class="text-3xl font-black text-slate-900 tracking-tight leading-none">Register</h2>
                         <p class="mt-3 text-sm text-slate-500 font-medium italic-none">
@@ -79,7 +80,7 @@
             </div>
         </div>
 
-        <div class="hidden lg:flex flex-col justify-between bg-gradient-to-br from-slate-950 via-emerald-900 to-slate-800 p-12 text-white order-2">
+       <div class="hidden lg:flex flex-col justify-between bg-gradient-to-br from-[#021326] via-[#033d32] to-[#0a5c46] p-16 text-white">
             <div>
                 <div class="inline-flex items-center gap-3">
                     <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
@@ -109,6 +110,8 @@
         </div>
 
     </div>
+    </div>
+</div>
 </x-layouts.auth>
 
 <script>
