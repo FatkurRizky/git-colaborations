@@ -24,9 +24,25 @@
                 </header>
             <?php endif; ?>
 
-            <main class="py-6">
+                        <main class="py-6">
                 <?php echo $__env->yieldContent('content'); ?>
             </main>
         </div>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <?php if(session('success')): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '<?php echo e(session('success')); ?>',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+        <?php endif; ?>
+
     </body>
 </html><?php /**PATH /home/muhammad/Kalkulator_rekon/resources/views/layouts/app.blade.php ENDPATH**/ ?>
