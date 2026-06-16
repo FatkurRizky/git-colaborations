@@ -1,5 +1,5 @@
 <x-layouts.auth title="Login">
-    <div class="min-h-screen flex items-center justify-center bg-slate-100 p-6">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-cyan-50 via-emerald-50 to-green-100 p-6">
         <div class="w-full max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-2xl grid lg:grid-cols-[0.8fr_1.2fr]">
 
         <div class="flex items-center justify-center px-6 py-10 sm:px-10 order-2 lg:order-1">
