@@ -22,10 +22,10 @@ class RekonKasSeeder extends Seeder
             ]);
         }
 
-        RekonKas::factory()
-            ->count(20)
-            ->create([
-                'created_by' => $user->id,
-            ]);
+        // RekonKas::factory()
+        //     ->count(1000)
+        //     ->create([
+        //         'created_by' => $user->id,
+        //     ]);
     }
 }
