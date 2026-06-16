@@ -1,28 +1,11 @@
 <?php $__env->startSection('content'); ?>
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 class="text-2xl font-bold text-slate-900">Data Rekon Kas</h2>
-        
-        <div class="flex flex-wrap gap-2">
-            <a href="<?php echo e(route('rekon-kas.create')); ?>"
-               class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700">
-                + Tambah Rekon
-            </a>
-        </div>
+        <a href="<?php echo e(route('rekon-kas.create')); ?>"
+           class="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-green-700">
+            + Tambah Rekon
+        </a>
     </div>
-
-    <?php if(session('success')): ?>
-        <div class="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-800 ring-1 ring-green-200">
-            <?php echo e(session('success')); ?>
-
-        </div>
-    <?php endif; ?>
-
-    <?php if(session('error')): ?>
-        <div class="mb-6 rounded-lg bg-red-50 p-4 text-sm text-red-800 ring-1 ring-red-200">
-            <?php echo e(session('error')); ?>
-
-        </div>
-    <?php endif; ?>
 
     <div class="mb-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
         <form method="GET" action="<?php echo e(route('rekon-kas.index')); ?>">
@@ -53,11 +36,11 @@
 
             <div class="mt-4 flex flex-wrap gap-2">
                 <button type="submit"
-                        class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-cyan-700">
+                        class="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700">
                     Filter
                 </button>
                 <a href="<?php echo e(route('rekon-kas.index')); ?>"
-                   class="rounded-lg bg-slate-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-600">
+                   class="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600">
                     Reset
                 </a>
             </div>
@@ -85,23 +68,19 @@
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">
                         <?php $__currentLoopData = $rekons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $rekon): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php
-                                // Kalkulasi Kas Seharusnya (jaga-jaga jika tidak ada di database)
-                                $calculated_expected = ($rekon->opening_cash + $rekon->cash_income) - $rekon->operational_cash;
-                            ?>
                             <tr class="hover:bg-slate-50">
                                 <td class="px-4 py-3 text-sm"><?php echo e($rekons->firstItem() + $index); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap"><?php echo e(\Carbon\Carbon::parse($rekon->rekon_date)->format('d-m-Y')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">Rp <?php echo e(number_format($rekon->opening_cash, 0, ',', '.')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">Rp <?php echo e(number_format($rekon->cash_income, 0, ',', '.')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">Rp <?php echo e(number_format($rekon->operational_cash, 0, ',', '.')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">Rp <?php echo e(number_format($rekon->cash_expected ?? $calculated_expected, 0, ',', '.')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">Rp <?php echo e(number_format($rekon->actual_cash, 0, ',', '.')); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap font-semibold <?php echo e($rekon->difference < 0 ? 'text-red-600' : ($rekon->difference > 0 ? 'text-amber-600' : 'text-green-600')); ?>">
+                                <td class="px-4 py-3 text-sm"><?php echo e($rekon->rekon_date?->format('d-m-Y')); ?></td>
+                                <td class="px-4 py-3 text-sm">Rp <?php echo e(number_format($rekon->opening_cash, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-sm">Rp <?php echo e(number_format($rekon->cash_income, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-sm">Rp <?php echo e(number_format($rekon->operational_cash, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-sm">Rp <?php echo e(number_format($rekon->cash_expected, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-sm">Rp <?php echo e(number_format($rekon->actual_cash, 0, ',', '.')); ?></td>
+                                <td class="px-4 py-3 text-sm font-semibold <?php echo e($rekon->difference < 0 ? 'text-red-600' : ($rekon->difference > 0 ? 'text-amber-600' : 'text-green-600')); ?>">
                                     Rp <?php echo e(number_format($rekon->difference, 0, ',', '.')); ?>
 
                                 </td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                <td class="px-4 py-3 text-sm">
                                     <?php if($rekon->status === 'sesuai'): ?>
                                         <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Sesuai</span>
                                     <?php elseif($rekon->status === 'selisih kurang'): ?>
@@ -110,14 +89,13 @@
                                         <span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">Selisih Lebih</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap"><?php echo e($rekon->creator->name ?? '-'); ?></td>
-                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                <td class="px-4 py-3 text-sm"><?php echo e($rekon->creator->name ?? '-'); ?></td>
+                                <td class="px-4 py-3 text-sm">
                                     <div class="flex flex-wrap gap-2">
                                         <a href="<?php echo e(route('rekon-kas.show', $rekon->id)); ?>"
-                                           class="rounded-lg bg-cyan-600 px-3 py-2 text-xs font-medium text-white hover:bg-cyan-700">Detail</a>
+                                           class="rounded-lg bg-green-600 px-3 py-2 text-xs font-medium text-white hover:bg-green-700">Detail</a>
                                         <a href="<?php echo e(route('rekon-kas.edit', $rekon->id)); ?>"
-                                           class="rounded-lg bg-amber-500 px-3 py-2 text-xs font-medium text-white hover:bg-amber-600">Edit</a>
-                                        
+                                           class="rounded-lg bg-green-500 px-3 py-2 text-xs font-medium text-white hover:bg-green-600">Edit</a>
                                         <form action="<?php echo e(route('rekon-kas.destroy', $rekon->id)); ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
@@ -141,8 +119,8 @@
                 </div>
             <?php endif; ?>
         <?php else: ?>
-            <div class="px-4 py-12 text-center">
-                <p class="text-sm text-slate-500">Belum ada data rekon kas yang sesuai pencarian.</p>
+            <div class="px-4 py-6 text-sm text-slate-500">
+                Belum ada data rekon kas.
             </div>
         <?php endif; ?>
     </div>

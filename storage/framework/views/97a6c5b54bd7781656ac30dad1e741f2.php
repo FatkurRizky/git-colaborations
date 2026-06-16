@@ -12,7 +12,13 @@
 
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     </head>
-    <body class="font-sans antialiased bg-gray-100 text-slate-900">
+    <body class="font-sans antialiased bg-gradient-to-br from-emerald-50 via-green-100 to-lime-100 text-slate-900 relative overflow-x-hidden">
+
+        <div class="fixed inset-0 -z-10">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-30"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-green-200 rounded-full blur-3xl opacity-30"></div>
+        </div>
+
         <div class="min-h-screen">
             <?php echo $__env->make('layouts.navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
@@ -24,25 +30,9 @@
                 </header>
             <?php endif; ?>
 
-                        <main class="py-6">
+            <main class="py-6">
                 <?php echo $__env->yieldContent('content'); ?>
             </main>
         </div>
-
-        <!-- SweetAlert2 -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <?php if(session('success')): ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: '<?php echo e(session('success')); ?>',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        </script>
-        <?php endif; ?>
-
     </body>
 </html><?php /**PATH /home/muhammad/Kalkulator_rekon/resources/views/layouts/app.blade.php ENDPATH**/ ?>
